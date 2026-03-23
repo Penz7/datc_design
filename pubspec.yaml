@@ -1,8 +1,8 @@
 name: datc_design
-description: "DATC Design System - Reusable Flutter UI components with consistent colors, spacing, and typography."
+description: "DATC Design System - High-quality, reusable Flutter UI components and design tokens reflecting a consistent brand identity."
 version: 0.1.0
-homepage: https://github.com/YOUR_USERNAME/datc_design
-repository: https://github.com/YOUR_USERNAME/datc_design.git
+homepage: https://github.com/Penz7/datc_design
+repository: https://github.com/Penz7/datc_design
 
 environment:
   sdk: ^3.10.0
