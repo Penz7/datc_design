@@ -8,6 +8,7 @@ import 'components/dc_list_demo.dart';
 import 'components/dc_radio_demo.dart';
 import 'components/dc_checkbox_demo.dart';
 import 'components/dc_rich_text_demo.dart';
+import 'components/dc_text_field_demo.dart';
 
 void main() {
   runApp(const MyApp());
@@ -77,6 +78,12 @@ class HomeScreen extends StatelessWidget {
         subtitle: 'Rich text with multiple spans',
         icon: Icons.text_format,
         page: const DCRichTextDemo(),
+      ),
+      _MenuItem(
+        title: 'DCTextField',
+        subtitle: 'Input fields and debounced search',
+        icon: Icons.input_rounded,
+        page: const DCTextFieldDemo(),
       ),
     ];
 
