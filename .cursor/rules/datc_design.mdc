@@ -1,0 +1,85 @@
+---
+description: DATC Design System rules for the datc_design Flutter package
+globs: ["lib/**/*.dart", "test/**/*.dart", "example/**/*.dart"]
+---
+
+# DATC Design System — Cursor AI Rules
+
+You are working on `datc_design`, a Flutter design system package. Follow these rules strictly.
+
+## Project Structure
+
+```
+lib/src/constants/   → DCColors, DCSpacing, DCFontSize (design tokens)
+lib/src/extensions/  → DCColorExtension (utility extensions)
+lib/src/widgets/     → DC* widgets (DCButton, DCText, DCList, DCInkWell)
+lib/datc_design.dart → Main library barrel export
+test/                → Widget tests
+example/lib/main.dart → Demo app
+```
+
+## Mandatory Rules
+
+### 1. Cross-Platform (Android & iOS)
+- ALL widgets MUST work identically on Android and iOS.
+- Use `SafeArea`, `MediaQuery`, `LayoutBuilder` for responsive layouts.
+- NEVER use platform-specific APIs without a fallback in `build()`.
+
+### 2. Widget Lifecycle Safety
+- ALWAYS check `mounted` before `setState()` in async callbacks.
+- NEVER use `context` after `await` without checking `mounted`.
+- ALWAYS cancel Timer, StreamSubscription, AnimationController in `dispose()`.
+- NEVER call `setState()` in `dispose()`.
+- Prefer `const` constructors.
+
+### 3. Barrel Export Convention
+- Every new file MUST be exported in its folder's `index.dart`.
+- `lib/datc_design.dart` only contains barrel exports:
+  ```dart
+  export 'src/constants/index.dart';
+  export 'src/extensions/index.dart';
+  export 'src/widgets/index.dart';
+  ```
+
+### 4. Flexible Widget Design
+- All visual properties MUST be optional and customizable.
+- Default values MUST use DCColors, DCSpacing, DCFontSize from constants.
+- Use `??` operator to fall back to design tokens.
+- Import via barrel: `import '../constants/index.dart';`
+
+### 5. Naming Convention
+- Files: `dc_<name>.dart` (e.g., `dc_card.dart`)
+- Classes: `DC<Name>` (e.g., `DCCard`)
+- Enums: `DC<Widget><Property>` (e.g., `DCButtonVariant`)
+- Tests: `dc_<name>_test.dart` (e.g., `dc_card_test.dart`)
+
+### 6. Documentation
+- Every public class/method/property MUST have `///` doc comments.
+- Every widget MUST include a usage example in doc comments.
+
+### 7. Code Quality
+- `flutter analyze` MUST have ZERO warnings.
+- `flutter test` MUST pass ALL tests.
+- Use trailing commas, `final` over `var`, `const` wherever possible.
+
+### 8. Deprecated API Avoidance
+- ❌ `Color.withOpacity()` → ✅ `Color.withValues(alpha:)` or `.opacityColor()`
+- ❌ `Color.value` → ✅ `Color.toARGB32()` or `.r`, `.g`, `.b`, `.a`
+- ❌ `ThemeData(primarySwatch:)` → ✅ `ThemeData(colorScheme:)`
+- Always `useMaterial3: true`.
+
+## Workflows
+
+### Create a new widget:
+1. Read `lib/src/constants/` and `lib/src/extensions/` first.
+2. Create `lib/src/widgets/dc_<name>.dart` following all rules above.
+3. Add `export 'dc_<name>.dart';` to `lib/src/widgets/index.dart`.
+4. Create `test/dc_<name>_test.dart` with full test coverage.
+5. Add demo section in `example/lib/main.dart`.
+6. Run `flutter analyze` and `flutter test`.
+
+### Edit a widget:
+1. Modify directly in `lib/src/widgets/dc_<name>.dart`.
+2. Update barrel exports if file was renamed/deleted.
+3. Update tests and example app.
+4. Run `flutter analyze` and `flutter test`.
