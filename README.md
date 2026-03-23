@@ -1,25 +1,32 @@
 # datc_design
 
-[![Pub](https://img.shields.io/pub/v/datc_design)](https://pub.dev/packages/datc_design)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-**DATC Design System** - A Flutter package providing reusable UI components with consistent design tokens for colors, spacing, and typography.
+**DATC Design System** - A Flutter package providing reusable UI components with consistent design tokens for colors, spacing, and typography. Built with high-performance standards and cross-platform reliability.
 
-## Features
+## 🚀 Features
 
-- ✅ Design tokens: Colors (primary, secondary, grayscale), spacing scale, typography styles
-`DCButton` with variants (filled, outlined, text), sizes, loading states
-- ✅ Material 3 compliant
-- ✅ Light & Dark theme support
-- ✅ Tested & Analyzed
+- ✅ **Design Tokens**: Comprehensive set of colors, spacing scales, and typography styles.
+- ✅ **Custom Widgets**:
+    - `DCButton`: Variants (filled, outlined, text), loading states, and custom sizes.
+    - `DCText`: Typography-driven text with default 1-line truncation.
+    - `DCRichText`: Multi-span styled text using design tokens.
+    - `DCList`: Native refresh and infinite scroll (load more).
+    - `DCImage`: Cached network images with Shimmer loading and error handling.
+    - `DCTextField` & `DCTextFieldSearch`: Form inputs with debounced search and loading indicators.
+- ✅ **Material 3**: Fully compliant with Material 3 design principles.
+- ✅ **Tested**: High test coverage (Unit & Widget tests).
 
-## Getting started
+## 📦 Installation
 
-Add to `pubspec.yaml`:
+Since this package is not yet published on pub.dev, add it to your `pubspec.yaml` via GitHub:
 
 ```yaml
 dependencies:
-  datc_design: ^0.1.0
+  datc_design:
+    git:
+      url: https://github.com/Penz7/datc_design.git
+      ref: main
 ```
 
 Then run:
@@ -28,78 +35,58 @@ Then run:
 flutter pub get
 ```
 
-Wrap your app with theme:
+## 🛠 Usage
+
+### Button Example
 
 ```dart
-MaterialApp(
-  theme: DatcColors.lightTheme,
-  darkTheme: DatcColors.darkTheme,
-  themeMode: ThemeMode.system,
-  home: MyApp(),
+DCButton(
+  onPressed: () => print("Tapped"),
+  label: 'Get Started',
+  variant: DCButtonVariant.filled,
+  size: DCButtonSize.large,
 )
 ```
 
-## Usage
-
-### DatcButton
+### Text with Tokens
 
 ```dart
-DatcButton(
-  onPressed: () {},
-  label: 'Primary',
-  variant: DatcButtonVariant.filled,
-)
-
-DatcButton(
-  onPressed: () {},
-  label: 'Outlined',
-  icon: Icons.arrow_forward,
-  variant: DatcButtonVariant.outlined,
-  size: DatcButtonSize.large,
-)
-
-DatcButton(
-  label: 'Loading',
-  isLoading: true,
+DCText(
+  'Consistent Header',
+  fontSize: DCFontSize.xl,
+  weight: FontWeight.bold,
+  color: DCColors.primary,
 )
 ```
 
-### Design Tokens
+### Debounced Search
 
 ```dart
-// Colors
-Container(color: DatcColors.primary)
-
-// Spacing
-SizedBox(width: DatcSpacing.md)
-
-// Typography
-Text('Headline', style: DatcTypography.headline5)
+DCTextFieldSearch(
+  hintText: 'Search products...',
+  onSearch: (query) {
+    // Automatically debounced for 500ms
+    print("Searching for: $query");
+  },
+)
 ```
 
-## Example
+## 🧪 Development & Testing
 
-See the `example/` folder for full demo.
+We maintain strict technical standards. Every contribution must pass analysis and testing.
 
-## Themes
+```bash
+# Analyze code quality
+flutter analyze
 
-```dart
-theme: DatcColors.lightTheme,
-darkTheme: DatcColors.darkTheme,
+# Run all unit and widget tests
+flutter test
 ```
 
-## Contributing
-
-1. Fork & clone
-2. `flutter pub get`
-3. `flutter analyze && flutter test`
-4. Create PR
-
-## License
+## 📜 License
 
 MIT - see [LICENSE](LICENSE)
 
 ---
 
-Made with ❤️ for Flutter developers.
-
+Developed for high-performance Flutter applications.
