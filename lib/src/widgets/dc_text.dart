@@ -9,8 +9,9 @@ class DCText extends StatelessWidget {
     this.fontSize = DCFontSize.normal,
     this.weight = FontWeight.w400,
     this.color,
-    this.maxLines,
+    this.maxLines = 1,
     this.textAlign,
+    this.overflow = TextOverflow.ellipsis,
   });
 
   final String data;
@@ -19,6 +20,7 @@ class DCText extends StatelessWidget {
   final Color? color;
   final int? maxLines;
   final TextAlign? textAlign;
+  final TextOverflow? overflow;
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +33,7 @@ class DCText extends StatelessWidget {
       ),
       maxLines: maxLines,
       textAlign: textAlign,
+      overflow: overflow,
     );
   }
 }
