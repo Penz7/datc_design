@@ -37,7 +37,9 @@ class DCImageDemo extends StatelessWidget {
                     imageUrl: 'https://picsum.photos/seed/datc3/200/300',
                     height: 150,
                     fit: BoxFit.cover,
-                    borderRadius: BorderRadius.all(Radius.circular(DCSpacing.sm)),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(DCSpacing.sm),
+                    ),
                   ),
                   const SizedBox(height: DCSpacing.xs),
                   const DCText('Cover', fontSize: DCFontSize.xs),
@@ -52,7 +54,9 @@ class DCImageDemo extends StatelessWidget {
                     imageUrl: 'https://picsum.photos/seed/datc3/200/300',
                     height: 150,
                     fit: BoxFit.contain,
-                    borderRadius: BorderRadius.all(Radius.circular(DCSpacing.sm)),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(DCSpacing.sm),
+                    ),
                   ),
                   const SizedBox(height: DCSpacing.xs),
                   const DCText('Contain', fontSize: DCFontSize.xs),

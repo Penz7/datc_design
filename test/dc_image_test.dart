@@ -21,15 +21,17 @@ void main() {
       // Verify the main container using its specific key
       final containerFinder = find.byKey(const Key('dc_image_container'));
       expect(containerFinder, findsOneWidget);
-      
+
       final container = tester.widget<Container>(containerFinder);
       expect(container.constraints?.maxWidth, 150);
       expect(container.constraints?.maxHeight, 100);
-      
+
       expect(find.byType(CachedNetworkImage), findsOneWidget);
     });
 
-    testWidgets('wraps with ClipRRect when borderRadius is provided', (tester) async {
+    testWidgets('wraps with ClipRRect when borderRadius is provided', (
+      tester,
+    ) async {
       const radius = BorderRadius.all(Radius.circular(12));
       await tester.pumpWidget(
         const MaterialApp(

@@ -61,10 +61,7 @@ class DCImage extends StatelessWidget {
     );
 
     if (borderRadius != null) {
-      image = ClipRRect(
-        borderRadius: borderRadius!,
-        child: image,
-      );
+      image = ClipRRect(borderRadius: borderRadius!, child: image);
     }
 
     return Container(
@@ -83,11 +80,7 @@ class DCImage extends StatelessWidget {
     return Shimmer.fromColors(
       baseColor: DCColors.gray200,
       highlightColor: DCColors.gray100,
-      child: Container(
-        width: width,
-        height: height,
-        color: Colors.white,
-      ),
+      child: Container(width: width, height: height, color: Colors.white),
     );
   }
 
