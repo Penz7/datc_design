@@ -9,6 +9,7 @@ import 'components/dc_radio_demo.dart';
 import 'components/dc_checkbox_demo.dart';
 import 'components/dc_rich_text_demo.dart';
 import 'components/dc_text_field_demo.dart';
+import 'components/dc_image_demo.dart';
 
 void main() {
   runApp(const MyApp());
@@ -84,6 +85,12 @@ class HomeScreen extends StatelessWidget {
         subtitle: 'Input fields and debounced search',
         icon: Icons.input_rounded,
         page: const DCTextFieldDemo(),
+      ),
+      _MenuItem(
+        title: 'DCImage',
+        subtitle: 'Cached network images with Shimmer',
+        icon: Icons.image_outlined,
+        page: const DCImageDemo(),
       ),
     ];
 
