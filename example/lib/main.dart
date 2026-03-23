@@ -7,6 +7,7 @@ import 'components/dc_inkwell_demo.dart';
 import 'components/dc_list_demo.dart';
 import 'components/dc_radio_demo.dart';
 import 'components/dc_checkbox_demo.dart';
+import 'components/dc_rich_text_demo.dart';
 
 void main() {
   runApp(const MyApp());
@@ -70,6 +71,12 @@ class HomeScreen extends StatelessWidget {
         subtitle: 'Multiple selection controls',
         icon: Icons.check_box,
         page: const DCCheckboxDemo(),
+      ),
+      _MenuItem(
+        title: 'DCRichText',
+        subtitle: 'Rich text with multiple spans',
+        icon: Icons.text_format,
+        page: const DCRichTextDemo(),
       ),
     ];
 
