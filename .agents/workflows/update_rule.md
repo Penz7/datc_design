@@ -20,7 +20,7 @@ description: Workflow for updating project rules — triggered by "update rule" 
 ## Step 2: Sync to All Platforms
 
 // turbo
-1. Run `make gen-rules` — this regenerates:
+1. Run `bash scripts/gen_ai_rules.sh` — this regenerates:
    - `.cursor/rules/datc_design.mdc`
    - `.github/copilot-instructions.md`
 2. Update `CONTRIBUTING.md` if the rule change affects the universal guide.
@@ -44,7 +44,7 @@ description: Workflow for updating project rules — triggered by "update rule" 
 ## Checklist Summary
 
 - [ ] Rule updated in `.agents/rules/datc_design_rules.md`
-- [ ] AI rules re-generated (`make gen-rules`)
+- [ ] AI rules re-generated (`bash scripts/gen_ai_rules.sh`)
 - [ ] `CONTRIBUTING.md` updated (if applicable)
 - [ ] `flutter analyze` — 0 issues
 - [ ] `flutter test` — all pass

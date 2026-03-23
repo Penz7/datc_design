@@ -23,7 +23,7 @@ description: Workflow for committing and pushing changes to GitHub — triggered
 If any files in `.agents/rules/`, `.agents/workflows/`, or `CONTRIBUTING.md` were modified:
 
 // turbo
-1. Run `make gen-rules` to sync rules to Cursor and GitHub Copilot.
+1. Run `bash scripts/gen_ai_rules.sh` to sync rules to Cursor and GitHub Copilot.
 
 ---
 

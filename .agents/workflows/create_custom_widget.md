@@ -135,19 +135,40 @@ void main() {
 
 ## Step 5: Add to Example App
 
-1. Open `example/lib/main.dart`
-2. Add a new demo section inside the `Column` children list:
+1. Create a new demo page at `example/lib/components/dc_<widget_name>_demo.dart`:
 
 ```dart
-const SizedBox(height: DCSpacing.xl),
+import 'package:flutter/material.dart';
+import 'package:datc_design/datc_design.dart';
+import 'shared.dart';
 
-/// DC<WidgetName> Demo
-const DCText('DC<WidgetName>', fontSize: DCFontSize.xxl),
-const SizedBox(height: DCSpacing.md),
-DC<WidgetName>(
-  <demo params>,
-),
+class DC<WidgetName>Demo extends StatelessWidget {
+  const DC<WidgetName>Demo({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return DemoScaffold(
+      title: 'DC<WidgetName>',
+      children: [
+        const SectionTitle('<section>'),
+        DC<WidgetName>(<demo params>),
+      ],
+    );
+  }
+}
 ```
+
+2. Open `example/lib/main.dart` and add:
+   - Import: `import 'components/dc_<widget_name>_demo.dart';`
+   - New `_MenuItem` entry in the `menuItems` list:
+     ```dart
+     _MenuItem(
+       title: 'DC<WidgetName>',
+       subtitle: '<brief description>',
+       icon: Icons.<relevant_icon>,
+       page: const DC<WidgetName>Demo(),
+     ),
+     ```
 
 ---
 
@@ -167,6 +188,7 @@ DC<WidgetName>(
 - [ ] Export in `lib/src/widgets/index.dart`
 - [ ] Export in `lib/datc_design.dart`
 - [ ] Create `test/dc_<name>_test.dart` with full coverage
-- [ ] Add demo section in `example/lib/main.dart`
+- [ ] Add demo page in `example/lib/components/dc_<name>_demo.dart`
+- [ ] Add `_MenuItem` entry in `example/lib/main.dart`
 - [ ] `flutter analyze` passes
 - [ ] `flutter test` passes

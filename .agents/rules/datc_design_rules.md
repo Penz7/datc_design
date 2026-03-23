@@ -75,10 +75,23 @@ lib/src/
 │   └── color_extensions.dart
 └── widgets/
     ├── index.dart          ← barrel export (CREATE if missing)
-    ├── dc_button.dart
-    ├── dc_text.dart
-    ├── dc_list.dart
-    └── dc_inkwell.dart
+    ├── dc_button.dart      ← DCButton, DCButtonVariant, DCButtonSize
+    ├── dc_text.dart        ← DCText
+    ├── dc_list.dart        ← DCList, DCListItem
+    ├── dc_inkwell.dart     ← DCInkWell, DCInkWellVariant
+    ├── dc_radio.dart       ← DCRadio, DCRadioItem, DCListRadio, DCRadioOption
+    └── dc_checkbox.dart    ← DCCheckbox, DCCheckboxItem, DCListCheckbox, DCCheckboxOption
+
+example/lib/
+├── main.dart               ← MyApp + HomeScreen (menu navigation)
+└── components/
+    ├── shared.dart          ← DemoScaffold, SectionTitle (shared utils)
+    ├── dc_text_demo.dart    ← DCText demo page
+    ├── dc_button_demo.dart  ← DCButton demo page
+    ├── dc_inkwell_demo.dart ← DCInkWell demo page
+    ├── dc_list_demo.dart    ← DCList demo page
+    ├── dc_radio_demo.dart   ← DCRadio demo page
+    └── dc_checkbox_demo.dart← DCCheckbox demo page
 ```
 
 **Steps when creating ANY new file:**

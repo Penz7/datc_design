@@ -51,7 +51,8 @@ If a file was **added** during this edit:
 
 ## Step 5: Update Example (if UI changed)
 
-1. If the widget's visual appearance or API changed, update `example/lib/main.dart`.
+1. If the widget's visual appearance or API changed, update the corresponding demo page at `example/lib/components/dc_<widget_name>_demo.dart`.
+2. If the widget was **deleted**, also remove its demo file and the `_MenuItem` entry in `example/lib/main.dart`.
 
 ---
 

@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:datc_design/datc_design.dart';
 
+import 'components/dc_text_demo.dart';
+import 'components/dc_button_demo.dart';
+import 'components/dc_inkwell_demo.dart';
+import 'components/dc_list_demo.dart';
+import 'components/dc_radio_demo.dart';
+import 'components/dc_checkbox_demo.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -11,137 +18,115 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'datc_design Demo',
+      title: 'DATC Design Demo',
       theme: ThemeData(
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(seedColor: DCColors.primary),
       ),
-      home: const DemoScreen(),
+      home: const HomeScreen(),
       debugShowCheckedModeBanner: false,
     );
   }
 }
 
-class DemoScreen extends StatefulWidget {
-  const DemoScreen({super.key});
-
-  @override
-  State<DemoScreen> createState() => _DemoScreenState();
-}
-
-class _DemoScreenState extends State<DemoScreen> {
-  int? _radioValue = 1;
-  bool _checkboxValue1 = true;
-  bool _checkboxValue2 = false;
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final menuItems = [
+      _MenuItem(
+        title: 'DCText',
+        subtitle: 'Typography & text styles',
+        icon: Icons.text_fields,
+        page: const DCTextDemo(),
+      ),
+      _MenuItem(
+        title: 'DCButton',
+        subtitle: 'Buttons with variants & sizes',
+        icon: Icons.smart_button,
+        page: const DCButtonDemo(),
+      ),
+      _MenuItem(
+        title: 'DCInkWell',
+        subtitle: 'Touchable surfaces',
+        icon: Icons.touch_app,
+        page: const DCInkWellDemo(),
+      ),
+      _MenuItem(
+        title: 'DCList & DCListItem',
+        subtitle: 'Lists with items',
+        icon: Icons.list,
+        page: const DCListDemo(),
+      ),
+      _MenuItem(
+        title: 'DCRadio & DCListRadio',
+        subtitle: 'Single selection controls',
+        icon: Icons.radio_button_checked,
+        page: const DCRadioDemo(),
+      ),
+      _MenuItem(
+        title: 'DCCheckbox & DCListCheckbox',
+        subtitle: 'Multiple selection controls',
+        icon: Icons.check_box,
+        page: const DCCheckboxDemo(),
+      ),
+    ];
+
     return Scaffold(
       appBar: AppBar(
-        title: const DCText('datc_design Demo', fontSize: DCFontSize.xl),
+        title: const DCText(
+          'DATC Design System',
+          fontSize: DCFontSize.xl,
+          color: Colors.white,
+          weight: FontWeight.w600,
+        ),
         backgroundColor: DCColors.primary,
         foregroundColor: Colors.white,
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(DCSpacing.lg),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            /// Typography Demo
-            const DCText('Typography', fontSize: DCFontSize.xxl),
-            const SizedBox(height: DCSpacing.md),
-            const DCText('DCFontSize.xl', fontSize: DCFontSize.xl),
-            const SizedBox(height: DCSpacing.sm),
-            const DCText('DCFontSize.normal', fontSize: DCFontSize.normal),
-            const SizedBox(height: DCSpacing.sm),
-            const DCText('DCFontSize.sm', fontSize: DCFontSize.sm),
-
-            const SizedBox(height: DCSpacing.xl),
-
-            /// Selection Controls Demo
-            const DCText('Selection Controls', fontSize: DCFontSize.xxl),
-            const SizedBox(height: DCSpacing.md),
-
-            const DCText('Radio Items (Grouped)', fontSize: DCFontSize.normal),
-            const SizedBox(height: DCSpacing.sm),
-            DCListRadio<int>(
-              groupValue: _radioValue,
-              onChanged: (val) => setState(() => _radioValue = val),
-              items: [
-                DCRadioOption(
-                  value: 1,
-                  title: 'Option 1',
-                  subtitle: 'Subtitle 1',
-                ),
-                DCRadioOption(
-                  value: 2,
-                  title: 'Option 2',
-                  subtitle: 'Subtitle 2',
-                ),
-              ],
+      body: ListView.separated(
+        padding: const EdgeInsets.symmetric(vertical: DCSpacing.md),
+        itemCount: menuItems.length,
+        separatorBuilder: (_, _) => const Divider(height: 1),
+        itemBuilder: (context, index) {
+          final item = menuItems[index];
+          return ListTile(
+            leading: CircleAvatar(
+              backgroundColor: DCColors.primary.withValues(alpha: 0.1),
+              child: Icon(item.icon, color: DCColors.primary),
             ),
-
-            const SizedBox(height: DCSpacing.md),
-            const DCText('Checkbox Items', fontSize: DCFontSize.normal),
-            const SizedBox(height: DCSpacing.sm),
-            DCCheckboxItem(
-              value: _checkboxValue1,
-              title: 'Checkbox 1',
-              subtitle: 'I am selected',
-              onChanged: (val) => setState(() => _checkboxValue1 = val!),
+            title: DCText(
+              item.title,
+              fontSize: DCFontSize.normal,
+              weight: FontWeight.w600,
             ),
-            DCCheckboxItem(
-              value: _checkboxValue2,
-              title: 'Checkbox 2',
-              subtitle: 'I am not selected',
-              onChanged: (val) => setState(() => _checkboxValue2 = val!),
-              controlAffinity: ListTileControlAffinity.trailing,
+            subtitle: DCText(
+              item.subtitle,
+              fontSize: DCFontSize.tiny,
+              color: DCColors.textSecondary,
             ),
-
-            const SizedBox(height: DCSpacing.xl),
-
-            /// Button Demo
-            const DCText('Buttons', fontSize: DCFontSize.xxl),
-            const SizedBox(height: DCSpacing.md),
-            DCButton(
-              onPressed: () {},
-              label: 'Primary Button',
-              icon: Icons.arrow_forward,
+            trailing: const Icon(Icons.chevron_right, color: DCColors.gray400),
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => item.page),
             ),
-            const SizedBox(height: DCSpacing.md),
-            DCInkWell(onTap: () {}, label: 'DC InkWell', icon: Icons.touch_app),
-
-            const SizedBox(height: DCSpacing.xl),
-
-            /// Colors Demo
-            const DCText('Colors', fontSize: DCFontSize.xxl),
-            const SizedBox(height: DCSpacing.md),
-            Container(
-              width: double.infinity,
-              height: 60,
-              decoration: BoxDecoration(
-                color: DCColors.primary,
-                borderRadius: BorderRadius.circular(DCSpacing.md),
-              ),
-              child: const Center(
-                child: DCText('Primary', color: Colors.white),
-              ),
-            ),
-            const SizedBox(height: DCSpacing.sm),
-            Container(
-              width: double.infinity,
-              height: 60,
-              decoration: BoxDecoration(
-                color: DCColors.secondary,
-                borderRadius: BorderRadius.circular(DCSpacing.md),
-              ),
-              child: const Center(
-                child: DCText('Secondary', color: Colors.white),
-              ),
-            ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }
+}
+
+class _MenuItem {
+  final String title;
+  final String subtitle;
+  final IconData icon;
+  final Widget page;
+
+  const _MenuItem({
+    required this.title,
+    required this.subtitle,
+    required this.icon,
+    required this.page,
+  });
 }

@@ -21,12 +21,24 @@ datc_design/
 │       │   └── color_extensions.dart  ← DCColorExtension
 │       └── widgets/
 │           ├── index.dart            ← Barrel export
-│           ├── dc_button.dart        ← DCButton
+│           ├── dc_button.dart        ← DCButton, DCButtonVariant, DCButtonSize
 │           ├── dc_text.dart          ← DCText
 │           ├── dc_list.dart          ← DCList, DCListItem
-│           └── dc_inkwell.dart       ← DCInkWell, DCInkWellVariant
+│           ├── dc_inkwell.dart       ← DCInkWell, DCInkWellVariant
+│           ├── dc_radio.dart         ← DCRadio, DCRadioItem, DCListRadio
+│           └── dc_checkbox.dart      ← DCCheckbox, DCCheckboxItem, DCListCheckbox
 ├── test/                             ← Widget tests
-├── example/lib/main.dart             ← Demo app
+├── example/
+│   └── lib/
+│       ├── main.dart                 ← HomeScreen (menu navigation)
+│       └── components/              ← One demo file per widget
+│           ├── shared.dart           ← DemoScaffold, SectionTitle
+│           ├── dc_text_demo.dart
+│           ├── dc_button_demo.dart
+│           ├── dc_radio_demo.dart
+│           ├── dc_checkbox_demo.dart
+│           └── ...
+├── scripts/gen_ai_rules.sh           ← Generate Cursor & Copilot rules
 └── pubspec.yaml
 ```
 
@@ -162,15 +174,16 @@ datc_design/
    - Default values match DATC design tokens
    - Interaction tests (onTap, onPressed) if applicable
    - Edge cases (empty string, overflow, null)
-6. Add demo section in `example/lib/main.dart`.
-7. Run `flutter analyze` (zero issues) and `flutter test` (all pass).
+6. Create demo page at `example/lib/components/dc_<name>_demo.dart`.
+7. Add `_MenuItem` entry in `example/lib/main.dart`.
+8. Run `flutter analyze` (zero issues) and `flutter test` (all pass).
 
 ### Workflow 2: Edit / Modify / Delete Widget
 
 1. Navigate to `lib/src/widgets/dc_<name>.dart` — modify directly.
 2. If file renamed/deleted → update `lib/src/widgets/index.dart` and `lib/datc_design.dart`.
 3. Update `test/dc_<name>_test.dart`.
-4. Update `example/lib/main.dart` if UI changed.
+4. Update demo page at `example/lib/components/dc_<name>_demo.dart` if UI changed.
 5. Run `flutter analyze` and `flutter test`.
 
 ### Workflow 3: Upgrade Dependencies
