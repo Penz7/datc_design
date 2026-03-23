@@ -2,20 +2,15 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-**DATC Design System** - A Flutter package providing reusable UI components with consistent design tokens for colors, spacing, and typography. Built with high-performance standards and cross-platform reliability.
+**DATC Design System** - A Flutter package providing reusable UI components with consistent design constants for colors, spacing, and typography. Built with high-performance standards and cross-platform reliability.
 
-## 🚀 Features
+## 🚀 Overview
 
-- ✅ **Design Tokens**: Comprehensive set of colors, spacing scales, and typography styles.
-- ✅ **Custom Widgets**:
-    - `DCButton`: Variants (filled, outlined, text), loading states, and custom sizes.
-    - `DCText`: Typography-driven text with default 1-line truncation.
-    - `DCRichText`: Multi-span styled text using design tokens.
-    - `DCList`: Native refresh and infinite scroll (load more).
-    - `DCImage`: Cached network images with Shimmer loading and error handling.
-    - `DCTextField` & `DCTextFieldSearch`: Form inputs with debounced search and loading indicators.
-- ✅ **Material 3**: Fully compliant with Material 3 design principles.
-- ✅ **Tested**: High test coverage (Unit & Widget tests).
+- ✅ **Design Constants**: Comprehensive set of colors, spacing scales, and typography styles.
+- ✅ **Custom UI Components**: A collection of cross-platform widgets optimized for consistent branding.
+- ✅ **Performance**: Integrated caching and optimized rendering.
+- ✅ **Material 3**: Fully compliant with modern Material principles.
+- ✅ **Stability**: Enforced through rigorous testing and code analysis.
 
 ## 📦 Installation
 
@@ -35,9 +30,9 @@ Then run:
 flutter pub get
 ```
 
-## 🛠 Usage
+## 🛠 Usage Examples
 
-### Button Example
+### UI Components
 
 ```dart
 DCButton(
@@ -46,9 +41,14 @@ DCButton(
   variant: DCButtonVariant.filled,
   size: DCButtonSize.large,
 )
+
+DCTextFieldSearch(
+  hintText: 'Search products...',
+  onSearch: (query) => print(query),
+)
 ```
 
-### Text with Tokens
+### Design Constants
 
 ```dart
 DCText(
@@ -57,21 +57,11 @@ DCText(
   weight: FontWeight.bold,
   color: DCColors.primary,
 )
+
+SizedBox(height: DCSpacing.md)
 ```
 
-### Debounced Search
-
-```dart
-DCTextFieldSearch(
-  hintText: 'Search products...',
-  onSearch: (query) {
-    // Automatically debounced for 500ms
-    print("Searching for: $query");
-  },
-)
-```
-
-## 🧪 Development & Testing
+## 🧪 Development
 
 We maintain strict technical standards. Every contribution must pass analysis and testing.
 
@@ -89,4 +79,4 @@ MIT - see [LICENSE](LICENSE)
 
 ---
 
-Developed for high-performance Flutter applications.
+Developed for high-performance Flutter applications using consistent design constants.
