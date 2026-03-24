@@ -41,6 +41,51 @@ void main() {
       expect(selectedValue, 1);
     });
 
+    testWidgets('DCRadioItem renders with custom size and spacing', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: DCRadioItem<int>(
+              value: 1,
+              groupValue: 0,
+              title: 'Styled Item',
+              onChanged: (val) {},
+              radioSize: 30,
+              spacing: 20,
+            ),
+          ),
+        ),
+      );
+
+      final radio = tester.widget<DCRadio<int>>(find.byType(DCRadio<int>));
+      expect(radio.size, 30);
+
+      final sizedBox = find.byType(SizedBox).at(1);
+      expect(tester.widget<SizedBox>(sizedBox).width, 20);
+    });
+
+    testWidgets('DCRadioItem renders with custom icons', (tester) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: DCRadioItem<int>(
+              value: 1,
+              groupValue: 1,
+              title: 'Custom Icons',
+              onChanged: (val) {},
+              activeIcon: const Icon(Icons.check_circle),
+              inactiveIcon: const Icon(Icons.circle_outlined),
+            ),
+          ),
+        ),
+      );
+
+      expect(find.byIcon(Icons.check_circle), findsOneWidget);
+      expect(find.byIcon(Icons.circle_outlined), findsNothing);
+    });
+
     testWidgets('DCListRadio displays multiple items', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
