@@ -11,7 +11,7 @@ You are a senior Flutter engineer. You MUST strictly adhere to these performance
 ## 1. UI Rendering — Zero Jank Policy
 
 - **`const` is mandatory, not optional**: Use `const` on every widget, constructor, collection, and object that does not change at runtime. Flutter caches these at compile-time, eliminating re-allocation on rebuild.
-- **Push state to the lowest leaf node**: `setState`, `Obx`, `GetBuilder`, `ValueListenableBuilder` MUST only wrap the exact widget that needs rebuilding — never at the top-level of a screen or large subtree.
+- **Push state to the lowest leaf node**: `setState`, `ValueListenableBuilder` MUST only wrap the exact widget that needs rebuilding — never at the top-level of a screen or large subtree.
 - **Stable widget tree structure**: Never swap completely different widgets with `if/else`. Use `Visibility`, `Offstage`, or `AnimatedSwitcher` to preserve the element tree.
 - **Limit `BuildContext` scope**: Use `Builder` widgets or extract small `StatelessWidget` children to confine rebuilds to the smallest possible subtree when reading Theme, Provider, or any state.
 - **`RepaintBoundary` for expensive zones**: Wrap complex or frequently-animated widgets (charts, maps, custom painters) in `RepaintBoundary` to isolate their repaint layer from the rest of the tree.
@@ -31,7 +31,7 @@ You are a senior Flutter engineer. You MUST strictly adhere to these performance
 
 - **Local UI state**: Use `StatefulWidget` or `ValueNotifier` — do not push trivial local state into a global store.
 - **Global reactive state**: Use `select()` (Riverpod/Provider) or `buildWhen` (Bloc) to ensure a widget only rebuilds when its specific field changes — never rebuild on full state object changes.
-- **Obx / GetBuilder scope**: Each `Obx` or `GetBuilder` must wrap the smallest possible widget. One large `Obx` wrapping an entire screen is forbidden.
+- **Selective rebuilds**: Use `ValueListenableBuilder` or `ValueNotifier.addListener` to ensure a widget only rebuilds when its specific field changes — never rebuild on full state object changes.
 
 ---
 
@@ -45,8 +45,8 @@ You are a senior Flutter engineer. You MUST strictly adhere to these performance
 
 ## 5. Memory Management — Zero Leak Policy
 
-- **Mandatory `dispose()`**: Every `AnimationController`, `TextEditingController`, `StreamController`, `ScrollController`, `FocusNode`, and `Timer` MUST be disposed in `dispose()` (StatefulWidget) or `onClose()` (GetxController).
-- **GetX controller scope**: Use `Get.lazyPut` with `fenix: false` for screen-scoped controllers. Never `Get.put` all controllers globally in `main()`.
+- **Mandatory `dispose()`**: Every `AnimationController`, `TextEditingController`, `StreamController`, `ScrollController`, `FocusNode`, and `Timer` MUST be disposed in `dispose()` (StatefulWidget).
+- **Controller scope**: Use `StatefulWidget` for screen-scoped controllers. Never initialize controllers globally.
 - **No orphaned listeners**: Every `addListener` call MUST have a corresponding `removeListener` in `dispose()`.
 
 ---
@@ -82,5 +82,5 @@ You are a senior Flutter engineer. You MUST strictly adhere to these performance
 | `setState` at screen root | Rebuilds entire tree | Extract child widget |
 | `Image.network(url)` | No cache, re-downloads every time | `CachedNetworkImage` |
 | Heavy JSON parse on main thread | Blocks UI, causes jank | `compute()` or `Isolate.run()` |
-| `Get.put(Controller())` in `main()` | Global leak, never disposed | Scoped `Get.lazyPut` |
+| Controller in `main()` | Global leak, never disposed | Scoped `StatefulWidget` |
 | `if/else` widget swap | Destroys and recreates element | `Visibility` / `Offstage` |
