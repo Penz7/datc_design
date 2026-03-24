@@ -4,12 +4,12 @@ import 'package:datc_design/datc_design.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 void main() {
-  group('DCGridView Tests with pull_to_refresh', () {
+  group('DCGrid Tests with pull_to_refresh', () {
     testWidgets('renders basic children grid', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: DCGridView(
+            body: DCGrid(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
               ),
@@ -19,7 +19,7 @@ void main() {
         ),
       );
 
-      expect(find.byType(DCGridView), findsOneWidget);
+      expect(find.byType(DCGrid), findsOneWidget);
       expect(find.text('Item 1'), findsOneWidget);
       expect(find.text('Item 2'), findsOneWidget);
       expect(find.byType(SmartRefresher), findsOneWidget);
@@ -29,7 +29,7 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: DCGridView.builder(
+            body: DCGrid.builder(
               itemCount: 4,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
@@ -52,7 +52,7 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: DCGridView(
+            body: DCGrid(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
               ),
@@ -76,7 +76,7 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: DCGridView(
+            body: DCGrid(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
               ),
@@ -102,7 +102,7 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: DCGridView.builder(
+            body: DCGrid.builder(
               itemCount: 0,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,

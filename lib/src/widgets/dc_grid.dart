@@ -6,9 +6,9 @@ import 'dc_text.dart';
 /// A highly customizable, performant grid with built-in pull-to-refresh
 /// and infinite scrolling (load more) capabilities, leveraging DATC
 /// Design Tokens and the `pull_to_refresh` package.
-class DCGridView extends StatefulWidget {
+class DCGrid extends StatefulWidget {
   /// Creates a standard grid from a fixed list of widgets.
-  const DCGridView({
+  const DCGrid({
     super.key,
     required List<Widget> children,
     required this.gridDelegate,
@@ -33,7 +33,7 @@ class DCGridView extends StatefulWidget {
        itemBuilder = null;
 
   /// Creates a grid that builds its items on demand.
-  const DCGridView.builder({
+  const DCGrid.builder({
     super.key,
     required this.itemCount,
     required this.itemBuilder,
@@ -118,10 +118,10 @@ class DCGridView extends StatefulWidget {
   final Widget? footer;
 
   @override
-  State<DCGridView> createState() => _DCGridViewState();
+  State<DCGrid> createState() => _DCGridState();
 }
 
-class _DCGridViewState extends State<DCGridView> {
+class _DCGridState extends State<DCGrid> {
   late RefreshController _internalRefreshController;
 
   RefreshController get _refreshController =>
@@ -134,7 +134,7 @@ class _DCGridViewState extends State<DCGridView> {
   }
 
   @override
-  void didUpdateWidget(DCGridView oldWidget) {
+  void didUpdateWidget(DCGrid oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (!oldWidget.hasMoreData && widget.hasMoreData) {
       _refreshController.resetNoData();

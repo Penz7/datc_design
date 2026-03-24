@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:datc_design/datc_design.dart';
 
-class DCGridViewDemo extends StatefulWidget {
-  const DCGridViewDemo({super.key});
+class DCGridDemo extends StatefulWidget {
+  const DCGridDemo({super.key});
 
   @override
-  State<DCGridViewDemo> createState() => _DCGridViewDemoState();
+  State<DCGridDemo> createState() => _DCGridDemoState();
 }
 
-class _DCGridViewDemoState extends State<DCGridViewDemo> {
+class _DCGridDemoState extends State<DCGridDemo> {
   final List<String> _items = List.generate(20, (i) => 'Grid Item ${i + 1}');
   bool _hasMoreData = true;
 
@@ -47,7 +47,7 @@ class _DCGridViewDemoState extends State<DCGridViewDemo> {
     return Scaffold(
       appBar: AppBar(
         title: DCText(
-          'DCGridView',
+          'DCGrid',
           fontSize: DCFontSize.xl,
           color: Colors.white,
           fontWeight: FontWeight.w600,
@@ -69,7 +69,7 @@ class _DCGridViewDemoState extends State<DCGridViewDemo> {
             ),
           ),
           Expanded(
-            child: DCGridView.builder(
+            child: DCGrid.builder(
               itemCount: _items.length,
               onRefresh: _onRefresh,
               onLoadMore: _onLoadMore,
