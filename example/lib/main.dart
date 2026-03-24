@@ -13,6 +13,7 @@ import 'components/dc_image_demo.dart';
 import 'components/dc_switch_demo.dart';
 import 'components/dc_grid_demo.dart';
 import 'components/dc_dialog_demo.dart';
+import 'components/dc_dropdown_demo.dart';
 
 void main() {
   runApp(const MyApp());
@@ -112,6 +113,12 @@ class HomeScreen extends StatelessWidget {
         subtitle: 'Flexible message & confirm dialogs',
         icon: Icons.layers_outlined,
         page: const DCDialogDemo(),
+      ),
+      _MenuItem(
+        title: 'DCDropdown',
+        subtitle: 'Flexible selection selection',
+        icon: Icons.arrow_drop_down_circle_outlined,
+        page: const DCDropdownDemo(),
       ),
     ];
 
