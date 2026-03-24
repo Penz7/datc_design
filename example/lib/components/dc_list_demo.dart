@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:datc_design/datc_design.dart';
 
 class DCListDemo extends StatefulWidget {
@@ -10,7 +11,6 @@ class DCListDemo extends StatefulWidget {
 
 class _DCListDemoState extends State<DCListDemo> {
   final List<String> _items = List.generate(20, (i) => 'Custom Item ${i + 1}');
-  bool _isLoadingMore = false;
   bool _hasMoreData = true;
 
   Future<void> _onRefresh() async {
@@ -25,10 +25,6 @@ class _DCListDemoState extends State<DCListDemo> {
   }
 
   Future<void> _onLoadMore() async {
-    setState(() {
-      _isLoadingMore = true;
-    });
-
     // Simulate network delay
     await Future.delayed(const Duration(seconds: 1));
 
@@ -39,7 +35,6 @@ class _DCListDemoState extends State<DCListDemo> {
         List.generate(10, (i) => 'Custom Item ${currentLength + i + 1}'),
       );
 
-      _isLoadingMore = false;
       // Stop loading after 50 items
       if (_items.length >= 50) {
         _hasMoreData = false;
@@ -78,8 +73,24 @@ class _DCListDemoState extends State<DCListDemo> {
               itemCount: _items.length,
               onRefresh: _onRefresh,
               onLoadMore: _onLoadMore,
-              isLoadingMore: _isLoadingMore,
               hasMoreData: _hasMoreData,
+              header: const WaterDropMaterialHeader(
+                backgroundColor: DCColors.primary,
+                color: Colors.white,
+              ),
+              footer: ClassicFooter(
+                loadingText: 'Loading more...',
+                noDataText: 'You reached the end!',
+                textStyle: const TextStyle(
+                  color: DCColors.textSecondary,
+                  fontSize: DCFontSize.sm,
+                ),
+                loadingIcon: const SizedBox(
+                  width: 20,
+                  height: 20,
+                  child: CircularProgressIndicator(strokeWidth: 2),
+                ),
+              ),
               separatorBuilder: (context, index) => const Divider(height: 1),
               itemBuilder: (context, index) {
                 final item = _items[index];

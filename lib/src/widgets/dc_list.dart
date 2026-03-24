@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../constants/index.dart';
 import 'dc_text.dart';
 
 /// A highly customizable, performant list with built-in pull-to-refresh
 /// and infinite scrolling (load more) capabilities, relying entirely
-/// on the DATC Design Tokens and avoiding heavy external dependencies.
+/// on the DATC Design Tokens and using the `pull_to_refresh` package.
 class DCList extends StatefulWidget {
   /// Creates a standard list from a fixed list of widgets.
   /// Ideal for small lists.
@@ -12,6 +13,7 @@ class DCList extends StatefulWidget {
     super.key,
     required List<Widget> children,
     this.controller,
+    this.refreshController,
     this.onRefresh,
     this.onLoadMore,
     this.hasMoreData = false,
@@ -23,6 +25,8 @@ class DCList extends StatefulWidget {
     this.loadingColor,
     this.noMoreDataMessage = 'No more data',
     this.scrollDirection = Axis.vertical,
+    this.header,
+    this.footer,
   }) : _isBuilder = false,
        _isSeparated = false,
        _children = children,
@@ -37,6 +41,7 @@ class DCList extends StatefulWidget {
     required this.itemCount,
     required this.itemBuilder,
     this.controller,
+    this.refreshController,
     this.onRefresh,
     this.onLoadMore,
     this.hasMoreData = false,
@@ -48,6 +53,8 @@ class DCList extends StatefulWidget {
     this.loadingColor,
     this.noMoreDataMessage = 'No more data',
     this.scrollDirection = Axis.vertical,
+    this.header,
+    this.footer,
   }) : _isBuilder = true,
        _isSeparated = false,
        _children = null,
@@ -61,6 +68,7 @@ class DCList extends StatefulWidget {
     required this.itemBuilder,
     required this.separatorBuilder,
     this.controller,
+    this.refreshController,
     this.onRefresh,
     this.onLoadMore,
     this.hasMoreData = false,
@@ -72,6 +80,8 @@ class DCList extends StatefulWidget {
     this.loadingColor,
     this.noMoreDataMessage = 'No more data',
     this.scrollDirection = Axis.vertical,
+    this.header,
+    this.footer,
   }) : _isBuilder = false,
        _isSeparated = true,
        _children = null;
@@ -91,6 +101,9 @@ class DCList extends StatefulWidget {
   /// Optional ScrollController to attach to the list.
   final ScrollController? controller;
 
+  /// Optional RefreshController for external control.
+  final RefreshController? refreshController;
+
   /// Indicates if this list should use builder logic internally.
   final bool _isBuilder;
 
@@ -98,18 +111,16 @@ class DCList extends StatefulWidget {
   final bool _isSeparated;
 
   /// Triggered when the user pulls down to refresh.
-  /// Wraps the list in a [RefreshIndicator].
   final Future<void> Function()? onRefresh;
 
   /// Triggered when the user scrolls near the bottom of the list.
   final Future<void> Function()? onLoadMore;
 
   /// Should be true if there is more data to load.
-  /// Controls the visibility of the bottom loading or 'no more data' indicator.
   final bool hasMoreData;
 
   /// Indicates if a load more operation is currently in progress.
-  /// Used to show the loading spinner at the bottom and prevent duplicate requests.
+  /// Note: Managed seamlessly by SmartRefresher natively, but kept for compatibility.
   final bool isLoadingMore;
 
   /// Custom padding for the list content. Defaults to `EdgeInsets.all(DCSpacing.md)`.
@@ -134,61 +145,68 @@ class DCList extends StatefulWidget {
   /// The axis along which the scroll view scrolls.
   final Axis scrollDirection;
 
+  /// Custom header widget for pull-to-refresh (e.g., WaterDropHeader, ClassicHeader).
+  final Widget? header;
+
+  /// Custom footer widget for load more (e.g., ClassicFooter, CustomFooter).
+  final Widget? footer;
+
   @override
   State<DCList> createState() => _DCListState();
 }
 
 class _DCListState extends State<DCList> {
-  ScrollController? _internalController;
+  late RefreshController _internalRefreshController;
 
-  ScrollController get _scrollController =>
-      widget.controller ?? _internalController!;
+  RefreshController get _refreshController =>
+      widget.refreshController ?? _internalRefreshController;
 
   @override
   void initState() {
     super.initState();
-    if (widget.controller == null) {
-      _internalController = ScrollController();
-    }
-    _scrollController.addListener(_onScroll);
+    _internalRefreshController = RefreshController(initialRefresh: false);
   }
 
   @override
   void didUpdateWidget(DCList oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.controller != widget.controller) {
-      oldWidget.controller?.removeListener(_onScroll);
-      if (widget.controller != null) {
-        _internalController?.dispose();
-        _internalController = null;
-        widget.controller!.addListener(_onScroll);
-      } else {
-        _internalController = ScrollController();
-        _internalController!.addListener(_onScroll);
-      }
+    if (!oldWidget.hasMoreData && widget.hasMoreData) {
+      _refreshController.resetNoData();
+    } else if (oldWidget.hasMoreData && !widget.hasMoreData) {
+      _refreshController.loadNoData();
     }
   }
 
   @override
   void dispose() {
-    _scrollController.removeListener(_onScroll);
-    _internalController?.dispose();
+    _internalRefreshController.dispose();
     super.dispose();
   }
 
-  void _onScroll() {
-    if (widget.onLoadMore == null ||
-        widget.isLoadingMore ||
-        !widget.hasMoreData) {
-      return;
+  Future<void> _onRefresh() async {
+    if (widget.onRefresh != null) {
+      await widget.onRefresh!();
     }
+    if (mounted) {
+      _refreshController.refreshCompleted();
+      if (widget.hasMoreData) {
+        _refreshController.resetNoData();
+      } else {
+        _refreshController.loadNoData();
+      }
+    }
+  }
 
-    final maxScroll = _scrollController.position.maxScrollExtent;
-    final currentScroll = _scrollController.position.pixels;
-
-    // Trigger load more when user is 200 pixels from the bottom
-    if (maxScroll - currentScroll <= 200) {
-      widget.onLoadMore!();
+  Future<void> _onLoading() async {
+    if (widget.onLoadMore != null) {
+      await widget.onLoadMore!();
+    }
+    if (mounted) {
+      if (widget.hasMoreData) {
+        _refreshController.loadComplete();
+      } else {
+        _refreshController.loadNoData();
+      }
     }
   }
 
@@ -199,13 +217,45 @@ class _DCListState extends State<DCList> {
     return widget._children![index];
   }
 
+  Widget _buildDefaultFooter() {
+    return CustomFooter(
+      builder: (BuildContext context, LoadStatus? mode) {
+        return SizedBox(
+          height: 60,
+          child: Center(child: _buildFooterContent(mode)),
+        );
+      },
+    );
+  }
+
+  Widget _buildFooterContent(LoadStatus? mode) {
+    if (mode == LoadStatus.loading) {
+      return SizedBox(
+        width: 24,
+        height: 24,
+        child: CircularProgressIndicator(
+          strokeWidth: 2.5,
+          valueColor: AlwaysStoppedAnimation<Color>(
+            widget.loadingColor ?? DCColors.primary,
+          ),
+        ),
+      );
+    } else if (mode == LoadStatus.noMore ||
+        (!widget.hasMoreData && widget.itemCount > 0)) {
+      return DCText(
+        widget.noMoreDataMessage,
+        fontSize: DCFontSize.sm,
+        color: DCColors.textSecondary,
+      );
+    }
+    return const SizedBox.shrink();
+  }
+
   Widget _buildList(BuildContext context) {
     if (widget.itemCount == 0 && widget.emptyWidget != null) {
       return Center(child: widget.emptyWidget);
     }
 
-    // Add 1 to itemCount if we have onLoadMore to show loading/end indicator
-    final totalCount = widget.itemCount + (widget.onLoadMore != null ? 1 : 0);
     final padding = widget.padding ?? const EdgeInsets.all(DCSpacing.md);
     final physics = widget.physics ?? const AlwaysScrollableScrollPhysics();
 
@@ -213,35 +263,26 @@ class _DCListState extends State<DCList> {
 
     if (widget._isSeparated) {
       listView = ListView.separated(
-        controller: _scrollController,
+        controller: widget.controller,
         padding: padding,
         physics: physics,
         shrinkWrap: widget.shrinkWrap,
         scrollDirection: widget.scrollDirection,
-        itemCount: totalCount,
-        separatorBuilder: (context, index) {
-          if (index == widget.itemCount) return const SizedBox.shrink();
-          return widget.separatorBuilder!(context, index);
-        },
+        itemCount: widget.itemCount,
+        separatorBuilder: widget.separatorBuilder!,
         itemBuilder: (context, index) {
-          if (index == widget.itemCount) {
-            return _buildFooter();
-          }
           return _buildItem(context, index);
         },
       );
     } else {
       listView = ListView.builder(
-        controller: _scrollController,
+        controller: widget.controller,
         padding: padding,
         physics: physics,
         shrinkWrap: widget.shrinkWrap,
         scrollDirection: widget.scrollDirection,
-        itemCount: totalCount,
+        itemCount: widget.itemCount,
         itemBuilder: (context, index) {
-          if (index == widget.itemCount) {
-            return _buildFooter();
-          }
           final child = _buildItem(context, index);
           // Add default spacing for static lists
           if (!widget._isBuilder && !widget._isSeparated) {
@@ -255,50 +296,18 @@ class _DCListState extends State<DCList> {
       );
     }
 
-    if (widget.onRefresh != null) {
-      return RefreshIndicator(
-        color: widget.loadingColor ?? DCColors.primary,
-        onRefresh: widget.onRefresh!,
-        child: listView,
-      );
-    }
-
-    return listView;
-  }
-
-  Widget _buildFooter() {
-    if (widget.isLoadingMore) {
-      return Padding(
-        padding: const EdgeInsets.all(DCSpacing.lg),
-        child: Center(
-          child: SizedBox(
-            width: 24,
-            height: 24,
-            child: CircularProgressIndicator(
-              strokeWidth: 2.5,
-              valueColor: AlwaysStoppedAnimation<Color>(
-                widget.loadingColor ?? DCColors.primary,
-              ),
-            ),
-          ),
-        ),
-      );
-    }
-
-    if (!widget.hasMoreData && widget.itemCount > 0) {
-      return Padding(
-        padding: const EdgeInsets.all(DCSpacing.lg),
-        child: Center(
-          child: DCText(
-            widget.noMoreDataMessage,
-            fontSize: DCFontSize.sm,
-            color: DCColors.textSecondary,
-          ),
-        ),
-      );
-    }
-
-    return const SizedBox.shrink();
+    return SmartRefresher(
+      enablePullDown: widget.onRefresh != null,
+      enablePullUp: widget.onLoadMore != null,
+      controller: _refreshController,
+      onRefresh: _onRefresh,
+      onLoading: _onLoading,
+      header:
+          widget.header ??
+          MaterialClassicHeader(color: widget.loadingColor ?? DCColors.primary),
+      footer: widget.footer ?? _buildDefaultFooter(),
+      child: listView,
+    );
   }
 
   @override

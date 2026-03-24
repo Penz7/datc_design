@@ -33,6 +33,7 @@ dependencies:
   datc_design:
     path: ../
   cupertino_icons: ^1.0.8
+  pull_to_refresh: ^2.0.0
 
 dev_dependencies:
   flutter_test:
