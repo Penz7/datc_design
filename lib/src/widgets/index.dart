@@ -8,3 +8,4 @@ export 'dc_checkbox.dart';
 export 'dc_rich_text.dart';
 export 'dc_text_field.dart';
 export 'dc_image.dart';
+export 'dc_switch.dart';

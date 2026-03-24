@@ -10,6 +10,7 @@ import 'components/dc_checkbox_demo.dart';
 import 'components/dc_rich_text_demo.dart';
 import 'components/dc_text_field_demo.dart';
 import 'components/dc_image_demo.dart';
+import 'components/dc_switch_demo.dart';
 
 void main() {
   runApp(const MyApp());
@@ -91,6 +92,12 @@ class HomeScreen extends StatelessWidget {
         subtitle: 'Cached network images with Shimmer',
         icon: Icons.image_outlined,
         page: const DCImageDemo(),
+      ),
+      _MenuItem(
+        title: 'DCSwitch',
+        subtitle: 'Custom toggle switch',
+        icon: Icons.toggle_on_outlined,
+        page: const DCSwitchDemo(),
       ),
     ];
 
