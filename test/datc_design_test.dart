@@ -14,7 +14,7 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: DCButton(onPressed: onPressed, label: 'Test Button'),
+            body: DCButton.fill(onPressed: onPressed, label: 'Test Button'),
           ),
         ),
       );
@@ -24,9 +24,9 @@ void main() {
 
     testWidgets('shows loading indicator', (tester) async {
       await tester.pumpWidget(
-        const MaterialApp(
+        MaterialApp(
           home: Scaffold(
-            body: DCButton(
+            body: DCButton.fill(
               onPressed: dummyOnPressed,
               label: 'Loading...',
               isLoading: true,
@@ -46,7 +46,7 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: DCButton(onPressed: onPressed, label: 'Press Me'),
+            body: DCButton.fill(onPressed: onPressed, label: 'Press Me'),
           ),
         ),
       );
@@ -61,9 +61,7 @@ void main() {
   group('DCText Tests', () {
     testWidgets('renders text with custom size', (tester) async {
       await tester.pumpWidget(
-        const MaterialApp(
-          home: Scaffold(body: DCText('Test Text', fontSize: 24.0)),
-        ),
+        MaterialApp(home: Scaffold(body: DCText('Test Text', fontSize: 24.0))),
       );
 
       expect(find.text('Test Text'), findsOneWidget);

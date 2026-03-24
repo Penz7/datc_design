@@ -16,7 +16,7 @@ class DemoScaffold extends StatelessWidget {
           title,
           fontSize: DCFontSize.xl,
           color: Colors.white,
-          weight: FontWeight.w600,
+          fontWeight: FontWeight.w600,
         ),
         backgroundColor: DCColors.primary,
         foregroundColor: Colors.white,
@@ -44,7 +44,7 @@ class SectionTitle extends StatelessWidget {
       child: DCText(
         title,
         fontSize: DCFontSize.md,
-        weight: FontWeight.w700,
+        fontWeight: FontWeight.w700,
         color: DCColors.primary,
       ),
     );

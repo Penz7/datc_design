@@ -11,7 +11,7 @@ class DCRichTextDemo extends StatelessWidget {
       title: 'DCRichText',
       children: [
         const SectionTitle('Basic Rich Text'),
-        const DCRichText(
+        DCRichText(
           children: [
             TextSpan(text: 'Basic '),
             TextSpan(
@@ -44,7 +44,7 @@ class DCRichTextDemo extends StatelessWidget {
         ),
         const SizedBox(height: DCSpacing.xl),
         const SectionTitle('Colors & Custom Sizes'),
-        const DCRichText(
+        DCRichText(
           baseColor: DCColors.textSecondary,
           children: [
             TextSpan(text: 'Status: '),
@@ -60,7 +60,7 @@ class DCRichTextDemo extends StatelessWidget {
         ),
         const SizedBox(height: DCSpacing.xl),
         const SectionTitle('Text overflowing'),
-        const SizedBox(
+        SizedBox(
           width: 200,
           child: DCRichText(
             maxLines: 1,

@@ -43,11 +43,11 @@ class DCInkWellDemo extends StatelessWidget {
                 child: const Icon(Icons.person, color: Colors.white),
               ),
               const SizedBox(width: DCSpacing.md),
-              const Expanded(
+              Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    DCText('Custom Layout', weight: FontWeight.w600),
+                    DCText('Custom Layout', fontWeight: FontWeight.w600),
                     DCText(
                       'Using DCInkWellVariant',
                       fontSize: DCFontSize.tiny,

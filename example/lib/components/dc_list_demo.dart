@@ -51,11 +51,11 @@ class _DCListDemoState extends State<DCListDemo> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const DCText(
+        title: DCText(
           'DCList & DCListItem',
           fontSize: DCFontSize.xl,
           color: Colors.white,
-          weight: FontWeight.w600,
+          fontWeight: FontWeight.w600,
         ),
         backgroundColor: DCColors.primary,
         foregroundColor: Colors.white,
@@ -66,7 +66,7 @@ class _DCListDemoState extends State<DCListDemo> {
             padding: const EdgeInsets.all(DCSpacing.md),
             color: DCColors.gray100,
             width: double.infinity,
-            child: const DCText(
+            child: DCText(
               'Pull down to refresh, scroll to bottom to load more.',
               fontSize: DCFontSize.sm,
               color: DCColors.textSecondary,
@@ -91,7 +91,7 @@ class _DCListDemoState extends State<DCListDemo> {
                     child: DCText(
                       '${index + 1}',
                       color: DCColors.primary,
-                      weight: FontWeight.w600,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                   trailing: const Icon(

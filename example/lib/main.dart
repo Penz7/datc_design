@@ -96,11 +96,11 @@ class HomeScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const DCText(
+        title: DCText(
           'DATC Design System',
           fontSize: DCFontSize.xl,
           color: Colors.white,
-          weight: FontWeight.w600,
+          fontWeight: FontWeight.w600,
         ),
         backgroundColor: DCColors.primary,
         foregroundColor: Colors.white,
@@ -119,7 +119,7 @@ class HomeScreen extends StatelessWidget {
             title: DCText(
               item.title,
               fontSize: DCFontSize.normal,
-              weight: FontWeight.w600,
+              fontWeight: FontWeight.w600,
             ),
             subtitle: DCText(
               item.subtitle,

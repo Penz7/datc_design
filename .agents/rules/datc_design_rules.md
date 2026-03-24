@@ -222,3 +222,74 @@ class DCCustomWidget extends StatelessWidget {
 - **Decision Confidence**: Provide clear verdicts ("Use X", "Avoid Y") backed by 2-3 concrete reasons.
 - **Structure**: Lead with the answer or diagnosis. Use short, punchy sentences for instructions.
 - **Integrity**: Maintain the architectural purity of the `datc_design` system above all else.
+
+---
+
+## 10. Material Widget Extension Pattern
+
+### Rule: When a custom DC widget is a thin wrapper around a single Material widget, it MUST extend that Material widget directly instead of wrapping it in a `StatelessWidget`.
+
+**Why?**
+- Eliminates an extra widget layer in the tree (better performance).
+- The custom widget IS the Material widget — `find.byType(DCText)` works naturally.
+- Cleaner API: named constructors via `super()` initialization.
+
+**Pattern to follow (extends Text):**
+```dart
+class DCText extends Text {
+  DCText(
+    super.text, {
+    super.key,
+    double? fontSize = DCFontSize.normal,
+    Color? color,
+    FontWeight? fontWeight,
+    super.maxLines = 1,
+    super.textAlign,
+    super.overflow = TextOverflow.ellipsis,
+    TextDecoration? decoration,
+  }) : super(
+          style: TextStyle(
+            fontSize: fontSize,
+            color: color ?? DCColors.textPrimary,
+            fontWeight: fontWeight,
+            decoration: decoration,
+          ),
+        );
+
+  /// Named constructor for font weight variants:
+  DCText.bold(String text, { ... }) : super(text, style: TextStyle(fontWeight: FontWeight.w700, ...));
+  DCText.semiBold(String text, { ... }) : super(...);
+  DCText.medium(String text, { ... }) : super(...);
+  DCText.regular(String text, { ... }) : super(...);
+}
+```
+
+**Pattern to follow (extends RichText):**
+```dart
+class DCRichText extends RichText {
+  DCRichText({
+    super.key,
+    required List<InlineSpan> children,
+    double baseFontSize = DCFontSize.normal,
+    ...
+  }) : super(
+          text: TextSpan(children: children, style: TextStyle(...)),
+        );
+}
+```
+
+### When to extend vs when to compose:
+
+| Scenario | Approach | Example |
+|---|---|---|
+| Thin wrapper around 1 Material widget | **Extend** the Material widget | `DCText extends Text` |
+| Combines multiple widgets | **Compose** with `StatelessWidget` | `DCButton` (Row + ElevatedButton + Icon) |
+| Needs internal state | **StatefulWidget** | `DCTextField` (password toggle) |
+| Provides factory constructors | **Private constructor + factories** | `DCButton._` + `.fill` / `.outline` / `.custom` |
+
+### Rules:
+- Extended widgets CANNOT use `const` constructors (since `super()` is called with non-const `TextStyle`).
+- Callers MUST remove `const` when instantiating these widgets.
+- Use `super.` parameters for properties passed directly to the parent (e.g., `super.key`, `super.maxLines`).
+- Apply `dart fix --apply` after conversion to auto-migrate to `super.` parameter syntax.
+

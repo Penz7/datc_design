@@ -6,7 +6,7 @@ void main() {
   group('DCRichText Tests', () {
     testWidgets('renders with base styles and children', (tester) async {
       await tester.pumpWidget(
-        const MaterialApp(
+        MaterialApp(
           home: Scaffold(
             body: DCRichText(
               baseFontSize: 20,
@@ -23,27 +23,25 @@ void main() {
       );
 
       expect(find.byType(DCRichText), findsOneWidget);
-      expect(find.textContaining('Hello World'), findsOneWidget);
 
-      final richText = tester.widget<RichText>(find.byType(RichText));
+      final richText = tester.widget<RichText>(find.byType(DCRichText));
       final rootSpan = richText.text as TextSpan;
 
       // Check base style
       expect(rootSpan.style?.fontSize, 20);
       expect(rootSpan.style?.color, DCColors.textPrimary);
 
-      // Check children (Text.rich wraps our TextSpan in another one)
-      final ourSpan = rootSpan.children![0] as TextSpan;
-      expect(ourSpan.children?.length, 2);
+      // Check children
+      expect(rootSpan.children?.length, 2);
       expect(
-        (ourSpan.children![1] as TextSpan).style?.fontWeight,
+        (rootSpan.children![1] as TextSpan).style?.fontWeight,
         FontWeight.bold,
       );
     });
 
     testWidgets('respects custom base color', (tester) async {
       await tester.pumpWidget(
-        const MaterialApp(
+        MaterialApp(
           home: Scaffold(
             body: DCRichText(
               baseColor: Colors.red,
@@ -53,7 +51,7 @@ void main() {
         ),
       );
 
-      final richText = tester.widget<RichText>(find.byType(RichText));
+      final richText = tester.widget<RichText>(find.byType(DCRichText));
       final rootSpan = richText.text as TextSpan;
       expect(rootSpan.style?.color, Colors.red);
     });

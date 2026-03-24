@@ -170,7 +170,7 @@ class _DCTextFieldState extends State<DCTextField> {
         if (widget.labelText != null) ...[
           DCText(
             widget.labelText!,
-            weight: FontWeight.w500,
+            fontWeight: FontWeight.w500,
             fontSize: DCFontSize.sm,
             color: DCColors.textPrimary,
           ),

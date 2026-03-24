@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../constants/index.dart';
 
-/// DCRichText - A stylized rich text component that defaults to DATC tokens.
+/// DCRichText - A stylized rich text component extending RichText directly.
 ///
 /// Allows composing multiple [InlineSpan]s (text spans, images, widgets)
 /// while maintaining a consistent base style.
@@ -19,52 +19,25 @@ import '../constants/index.dart';
 ///   ],
 /// )
 /// ```
-class DCRichText extends StatelessWidget {
-  const DCRichText({
+class DCRichText extends RichText {
+  DCRichText({
     super.key,
-    required this.children,
-    this.baseFontSize = DCFontSize.normal,
-    this.baseWeight = FontWeight.w400,
-    this.baseColor,
-    this.textAlign = TextAlign.start,
-    this.maxLines,
-    this.overflow = TextOverflow.clip,
-    this.softWrap = true,
-  });
-
-  /// The list of [InlineSpan]s to display.
-  final List<InlineSpan> children;
-
-  /// The base font size that all children will inherit from if not overridden.
-  /// Defaults to [DCFontSize.normal].
-  final double baseFontSize;
-
-  /// The base font weight that all children will inherit from if not overridden.
-  /// Defaults to [FontWeight.w400].
-  final FontWeight baseWeight;
-
-  /// The base color that all children will inherit from if not overridden.
-  /// Defaults to [DCColors.textPrimary].
-  final Color? baseColor;
-
-  final TextAlign textAlign;
-  final int? maxLines;
-  final TextOverflow overflow;
-  final bool softWrap;
-
-  @override
-  Widget build(BuildContext context) {
-    return Text.rich(
-      TextSpan(children: children),
-      style: TextStyle(
-        fontSize: baseFontSize,
-        fontWeight: baseWeight,
-        color: baseColor ?? DCColors.textPrimary,
-      ),
-      textAlign: textAlign,
-      maxLines: maxLines,
-      overflow: overflow,
-      softWrap: softWrap,
-    );
-  }
+    required List<InlineSpan> children,
+    double baseFontSize = DCFontSize.normal,
+    FontWeight baseWeight = FontWeight.w400,
+    Color? baseColor,
+    super.textAlign,
+    super.maxLines,
+    super.overflow,
+    super.softWrap,
+  }) : super(
+         text: TextSpan(
+           children: children,
+           style: TextStyle(
+             fontSize: baseFontSize,
+             fontWeight: baseWeight,
+             color: baseColor ?? DCColors.textPrimary,
+           ),
+         ),
+       );
 }

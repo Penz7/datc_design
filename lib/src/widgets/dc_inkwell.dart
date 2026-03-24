@@ -54,7 +54,7 @@ class DCInkWell extends StatelessWidget {
                 child: DCText(
                   label,
                   fontSize: DCFontSize.normal,
-                  weight: FontWeight.w500,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
               if (trailing != null) ...[
