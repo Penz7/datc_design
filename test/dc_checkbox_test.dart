@@ -38,6 +38,31 @@ void main() {
       expect(selectedValue, true);
     });
 
+    testWidgets('DCCheckboxItem renders with custom icons and size', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: DCCheckboxItem(
+              value: true,
+              title: 'Custom Icons',
+              onChanged: (val) {},
+              activeIcon: const Icon(Icons.check_box),
+              inactiveIcon: const Icon(Icons.check_box_outline_blank),
+              checkboxSize: 30,
+            ),
+          ),
+        ),
+      );
+
+      expect(find.byIcon(Icons.check_box), findsOneWidget);
+      final customRadio = tester.widget<DCCheckboxCustom>(
+        find.byType(DCCheckboxCustom),
+      );
+      expect(customRadio.size, 30);
+    });
+
     testWidgets('DCListCheckbox displays multiple items', (tester) async {
       await tester.pumpWidget(
         MaterialApp(

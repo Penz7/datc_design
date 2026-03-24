@@ -67,6 +67,38 @@ class _DCCheckboxDemoState extends State<DCCheckboxDemo> {
             ),
           ],
         ),
+        const SizedBox(height: DCSpacing.xl),
+        const SectionTitle('Custom Icons (Icons/Images)'),
+        DCCheckboxItem(
+          value: _check1,
+          title: 'Custom Icon Pair',
+          subtitle: 'Uses Check vs Square icons',
+          activeIcon: const Icon(
+            Icons.check_box,
+            color: DCColors.secondary,
+            size: 24,
+          ),
+          inactiveIcon: const Icon(
+            Icons.check_box_outline_blank,
+            color: DCColors.gray300,
+            size: 24,
+          ),
+          onChanged: (val) => setState(() => _check1 = val!),
+        ),
+        const SizedBox(height: DCSpacing.xl),
+        const SectionTitle('Customizable Styles'),
+        DCCheckboxItem(
+          value: _check2,
+          title: 'Custom Size & Style',
+          checkboxSize: 30,
+          spacing: 20,
+          onChanged: (val) => setState(() => _check2 = val!),
+          titleStyle: const TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
+            color: DCColors.primary,
+          ),
+        ),
       ],
     );
   }
