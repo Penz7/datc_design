@@ -40,6 +40,45 @@ void main() {
 
       expect(find.text('Invalid email'), findsOneWidget);
     });
+
+    testWidgets('password field shows visibility toggle', (tester) async {
+      await tester.pumpWidget(
+        const MaterialApp(home: Scaffold(body: DCTextField(isPassword: true))),
+      );
+
+      expect(find.byIcon(Icons.visibility_off_outlined), findsOneWidget);
+      expect(
+        tester.widget<TextField>(find.byType(TextField)).obscureText,
+        true,
+      );
+
+      await tester.tap(find.byIcon(Icons.visibility_off_outlined));
+      await tester.pump();
+
+      expect(find.byIcon(Icons.visibility_outlined), findsOneWidget);
+      expect(
+        tester.widget<TextField>(find.byType(TextField)).obscureText,
+        false,
+      );
+    });
+
+    testWidgets('email flag sets keyboard type', (tester) async {
+      await tester.pumpWidget(
+        const MaterialApp(home: Scaffold(body: DCTextField(isEmail: true))),
+      );
+
+      final textField = tester.widget<TextField>(find.byType(TextField));
+      expect(textField.keyboardType, TextInputType.emailAddress);
+    });
+
+    testWidgets('phone flag sets keyboard type', (tester) async {
+      await tester.pumpWidget(
+        const MaterialApp(home: Scaffold(body: DCTextField(isPhone: true))),
+      );
+
+      final textField = tester.widget<TextField>(find.byType(TextField));
+      expect(textField.keyboardType, TextInputType.phone);
+    });
   });
 
   group('DCTextFieldSearch Tests', () {
