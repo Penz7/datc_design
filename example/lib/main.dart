@@ -14,6 +14,7 @@ import 'components/dc_switch_demo.dart';
 import 'components/dc_grid_demo.dart';
 import 'components/dc_dialog_demo.dart';
 import 'components/dc_dropdown_demo.dart';
+import 'components/dc_helpers_demo.dart';
 
 void main() {
   runApp(const MyApp());
@@ -119,6 +120,12 @@ class HomeScreen extends StatelessWidget {
         subtitle: 'Flexible selection selection',
         icon: Icons.arrow_drop_down_circle_outlined,
         page: const DCDropdownDemo(),
+      ),
+      _MenuItem(
+        title: 'DCHelpers',
+        subtitle: 'DateTime & Picker helpers',
+        icon: Icons.help_outline,
+        page: const DCHelpersDemo(),
       ),
     ];
 
