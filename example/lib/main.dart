@@ -12,6 +12,7 @@ import 'components/dc_text_field_demo.dart';
 import 'components/dc_image_demo.dart';
 import 'components/dc_switch_demo.dart';
 import 'components/dc_grid_demo.dart';
+import 'components/dc_dialog_demo.dart';
 
 void main() {
   runApp(const MyApp());
@@ -105,6 +106,12 @@ class HomeScreen extends StatelessWidget {
         subtitle: 'Grid with Pull to Refresh',
         icon: Icons.grid_view_rounded,
         page: const DCGridDemo(),
+      ),
+      _MenuItem(
+        title: 'DCDialog',
+        subtitle: 'Flexible message & confirm dialogs',
+        icon: Icons.layers_outlined,
+        page: const DCDialogDemo(),
       ),
     ];
 

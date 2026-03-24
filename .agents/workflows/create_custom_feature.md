@@ -176,7 +176,46 @@ void main() {
 
 ---
 
-## Step 7: Verify
+## Step 7: Add to Example App
+
+1. Create a new demo page at `example/lib/components/dc_<feature_name>_demo.dart`:
+
+```dart
+import 'package:flutter/material.dart';
+import 'package:datc_design/datc_design.dart';
+import 'shared.dart';
+
+class DC<FeatureName>Demo extends StatelessWidget {
+  const DC<FeatureName>Demo({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return DemoScaffold(
+      title: 'DC<FeatureName>',
+      children: [
+        const SectionTitle('<section>'),
+        // Feature demo implementation
+      ],
+    );
+  }
+}
+```
+
+2. Open `example/lib/main.dart` and add:
+   - Import: `import 'components/dc_<feature_name>_demo.dart';`
+   - New `_MenuItem` entry in the `menuItems` list:
+     ```dart
+     _MenuItem(
+       title: 'DC<FeatureName>',
+       subtitle: '<brief description>',
+       icon: Icons.<relevant_icon>,
+       page: const DC<FeatureName>Demo(),
+     ),
+     ```
+
+---
+
+## Step 8: Verify
 
 // turbo
 1. Run `flutter analyze` in the project root — must have ZERO issues.
@@ -194,5 +233,7 @@ void main() {
 - [ ] Export in folder's `index.dart`
 - [ ] Export in `lib/datc_design.dart` (if not already)
 - [ ] Create `test/dc_<name>_test.dart` with full coverage
+- [ ] Add demo page in `example/lib/components/dc_<name>_demo.dart`
+- [ ] Add `_MenuItem` entry in `example/lib/main.dart`
 - [ ] `flutter analyze` passes
 - [ ] `flutter test` passes

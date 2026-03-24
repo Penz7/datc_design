@@ -68,7 +68,14 @@ If a file was **added** during this edit:
 
 ---
 
-## Step 5: Verify
+## Step 5: Update Example (if UI changed)
+
+1. If the feature's visual appearance or API changed, update the corresponding demo page at `example/lib/components/dc_<feature_name>_demo.dart`.
+2. If the feature was **deleted**, also remove its demo file and the `_MenuItem` entry in `example/lib/main.dart`.
+
+---
+
+## Step 6: Verify
 
 // turbo
 1. Run `flutter analyze` — must be ZERO issues.
