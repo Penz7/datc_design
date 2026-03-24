@@ -11,6 +11,7 @@ import 'components/dc_rich_text_demo.dart';
 import 'components/dc_text_field_demo.dart';
 import 'components/dc_image_demo.dart';
 import 'components/dc_switch_demo.dart';
+import 'components/dc_grid_view_demo.dart';
 
 void main() {
   runApp(const MyApp());
@@ -98,6 +99,12 @@ class HomeScreen extends StatelessWidget {
         subtitle: 'Custom toggle switch',
         icon: Icons.toggle_on_outlined,
         page: const DCSwitchDemo(),
+      ),
+      _MenuItem(
+        title: 'DCGridView',
+        subtitle: 'Grid with Pull to Refresh',
+        icon: Icons.grid_view_rounded,
+        page: const DCGridViewDemo(),
       ),
     ];
 
